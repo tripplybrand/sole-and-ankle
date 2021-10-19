@@ -36,11 +36,8 @@ const ShoeCard = ({
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
-          {variant === 'default' ? null : variant === 'new-release' ? (
-            <Flag variant={variant}>Just Released!</Flag>
-          ) : (
-            <Flag variant={variant}>Sale</Flag>
-          )}
+          {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
+          {variant === 'new-release' && <NewFlag>Just released!</NewFlag>}
           <Image alt="" src={imageSrc} />
         </ImageWrapper>
         <Spacer size={12} />
@@ -52,7 +49,7 @@ const ShoeCard = ({
           <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
           {typeof salePrice === 'number' ? (
             <SalePrice>{formatPrice(salePrice)}</SalePrice>
-          ) : null}
+          ) : undefined}
         </Row>
       </Wrapper>
     </Link>
@@ -103,17 +100,24 @@ const SalePrice = styled.span`
 `
 
 const Flag = styled.div`
-  background-color: ${(props) =>
-    props.variant === 'new-release' ? COLORS.secondary : COLORS.primary};
-  width: max-content;
-  padding: 0.3rem;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
   border-radius: 2px;
   font-weight: ${WEIGHTS.bold};
   font-size: 0.875rem;
   color: white;
   position: absolute;
-  right: 0px;
-  bottom: 88.11%;
+  top: 12px;
+  right: -4px;
+`
+
+const SaleFlag = styled(Flag)`
+  background-color: ${COLORS.primary};
+`
+
+const NewFlag = styled(Flag)`
+  background-color: ${COLORS.secondary};
 `
 
 export default ShoeCard
